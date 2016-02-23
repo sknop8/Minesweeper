@@ -1,0 +1,135 @@
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
+CIS 120 Game Project Proposal
+PennKey: sknop
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
+
+===============
+=: Your Game :=
+===============
+
+- What game are you planning to implement? If it is a game of your own design,
+  or not especially well-known, provide a 2-3 sentence description of the game.
+
+	I am going to implement Minesweeper. 
+
+- What classes and interfaces do you plan to create? How will the different
+  components of your game (the model, the GUI, etc.) interact?
+
+	I will create a Minesweeper class that will display high scores, and from 
+	which a user can start a new Game of a certain level. The Game class will 
+	store a 2D array which represents the grid that is the "field" in the game. 
+	Game will have fields for the board size and the number of mines. Each 
+	element in the 2D array will be a Box. The Box class is an abstract class 
+	with subclasses BombBox and RegBox. RegBox's should keep track of how many 
+	BombBox's are next to them. The Game class will also keep track of the time 
+	of each game (in seconds), and the number of Box's left to be flagged. There
+	will be a function in Game which allows it to be drawn as a JComponent in 
+	the GUI. The Box class will have a function that dictates how it should 
+	appear depending on if it is unflagged, flagged, or a question mark.
+	
+
+- What do you think will be the most challenging thing to implement?
+
+	I think repainting the board after the user clicks on a Box will be the most
+	challenging. In particular, when a user clicks on a RegBox with no bomb 
+	neighbors. Then, all the "empty" RegBoxes should also be clicked until they
+	reach RegBox's that have bombs next to them. 
+
+====================
+=: Core Concept 1 :=
+====================
+
+Concept 1: 2D Array
+
+- What specific feature of your game will be implemented using this concept?
+	
+	The field in this game will be represented by a 2D Array. This makes sense 
+	since the Minesweeper field is a grid. Also, the location of each element 
+	in the grid is important, so a 2D Array is perfect for this since it is 
+	indexed. This will allow for an easy way to find the Box's adjacent to any
+	Box.
+
+- Why does it make sense to implement this feature with this concept? Justify
+  why this is a non-trivial application of the concept in question.
+	
+	The 2D Array is an appropriate data structure because elements in the board
+	are arranged in a rectangular grid and need to be indexed, and once the 
+	board size is set, it will never be resized.
+	
+  
+====================
+=: Core Concept 2 :=
+====================
+
+Concept 2: I/O
+
+- What specific feature of your game will be implemented using this concept?
+
+	After each run of the game, the time (from Game) and the user's name (from 
+	user input) will be written to a file and then displayed. Additionally, 
+	there will be the option to make custom board sizes and number of mines.
+
+- Why does it make sense to implement this feature with this concept? Justify
+  why this is a non-trivial application of the concept in question.
+	
+	This will require enabling persistent state between runs of the game. Scores
+	and names written to the file will need to be searched and when read back,
+	ordered. So, it makes sense to use I/O. This is non-trivial implementation
+	because it involves storing of data in a file over multiple game runs,
+	and search through the file to read back high scores.
+
+====================
+=: Core Concept 3 :=
+====================
+
+Concept 3: Inheritance/Subtyping
+
+- What specific feature of your game will be implemented using this concept?
+
+	I will use an inheritance hierarchy to model the different type of boxes 
+	there can be on the grid. I will have an abstract class Box, with subclasses
+	BombBox and RegBox.
+	
+
+- Why does it make sense to implement this feature with this concept? Justify
+  why this is a non-trivial application of the concept in question.
+
+	It makes sense to have subclasses because there are some elements of regular
+	boxes that wouldn't make sense to have for bombs, such as the number of 
+	bombs it is next to. Yet, BombBox's and RegBox's share similar display 
+	properties such as they can both be flagged or question-marked. But, once 
+	clicked they do very different things and have different displays (RegBox's
+	display a number and may or may not cause other Box's to change, while 
+	BombBox's display a black circle and end the game). So, it makes sense to 
+	use inheritance and subtyping to implement different types of boxes, and it
+	is non-trivial since are some properties BombBox's and RegBox's differ on,
+	yet they are both Box's and do share some other properties.
+
+====================
+=: Core Concept 4 :=
+====================
+
+Concept 4: Testable Component
+
+- What specific feature of your game will be implemented using this concept?
+
+	I will test the feature that when the user clicks an "empty" box (a box with
+	no bombs next to it), the field clears (all the empty boxes adjacent to the 
+	clicked box will be revealed, and the same with the empty boxes adjacent to
+	the newly revealed ones) until it finds boxes that have bombs next to it. 
+
+- Why does it make sense to implement this feature with this concept? Justify
+  why this is a non-trivial application of the concept in question.
+  
+  	This makes sense to test over other components because this is the most 
+  	complicated thing that can occur once a user clicks a box. If a user clicks
+  	a non-empty box, it will either display its number or go off as a bomb. So,
+  	the clicking of empty boxes is core to the procession of the game, and the
+  	clearing of the field, so it is important to test that this works correctly.
+  	Some edge cases include when a while region is cleared except for one box in
+  	the middle, when the region is at the edge or corner of the board, and when 
+  	the clearing of a region leads to winning the game. These test cases are 
+  	non-trivial since there many different instances in which this could happen,
+  	and corner cases such as the last move must also be checked for proper
+  	functionality.  
+
